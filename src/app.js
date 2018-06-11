@@ -31,11 +31,9 @@ class Server {
         try {
             // let statObj = await stat(p)
             let statObj
-            fs.stat(p, (error, type) => {
+            fs.stat(p, (error, stat) => {
 
-                statObj = type
-
-                if ( type.isDirectory() ) {
+                if ( stat.isDirectory() ) {
                     fs.readdir(p, (err, data) => {
                         let dirs = data
                         dirs = dirs.map(dir => {
@@ -54,7 +52,7 @@ class Server {
                     
                 } else {
                     // 如果是文件，直接打开文件
-                    this.openFile(req, res, p, statObj)
+                    this.openFile(req, res, p, stat)
                 }
             })
 
