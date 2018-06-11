@@ -11,13 +11,14 @@ let chalk = require('chalk')
 let debug = require('debug')('*')
 
 // 将方法转换成 promise 方法
-let stat = util.promisify(fs.stat)
-let readdir = util.promisify(fs.readdir)
+// let stat = util.promisify(fs.stat)
+// let readdir = util.promisify(fs.readdir)
 let {config} = require('./config')
 let template = fs.readFileSync(path.resolve(__dirname, 'template.html'), 'utf8')
 
 // 创建服务器
 class Server {
+
     constructor(args) {
         this.config = args
         this.template = template
@@ -30,14 +31,13 @@ class Server {
         try {
             // let statObj = await stat(p)
             let statObj
-            stat(p).then(data => {
-                statObj = data
-                // 如果是目录就展示目录列表，并且可以点进去
-                if ( statObj.isDirectory() ) {
-                    // let dirs = await readdir(p)
-                    let dirs
-                    readdir(p).then(data => {
-                        dirs = data
+            fs.stat(p, (error, type) => {
+
+                statObj = type
+
+                if ( type.isDirectory() ) {
+                    fs.readdir(p, (err, data) => {
+                        let dirs = data
                         dirs = dirs.map(dir => {
                             return {
                                 filename: dir,
@@ -58,7 +58,6 @@ class Server {
                 }
             })
 
-            
         } catch(e) {
             // 文件/目录不存在
             this.sendError(req, res, e)

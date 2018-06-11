@@ -1,10 +1,9 @@
 ## a node server for anywhere
 
-### install(node > 8.0)
+### install (node > 8.0)
 
 ```
 	install: npm install go-server -g
-
 ```
 
 ### start
@@ -18,7 +17,7 @@
 ```
 	-p port	(default to 8000)  
 
-	-d path	(default to local ip address)  
+	-d path	(default to current directory)  
 
 	...
 ```
