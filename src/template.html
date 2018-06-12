@@ -5,23 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style type="text/css">
+	    * {
+	    	margin: 0;
+	    	padding: 0;
+	    }
 	    ul {
 	    	width: 70%;
-	    	margin: 20px auto;
+	    	margin: 50px auto;
 	    }
     	li {
 		    float: left;
 		    min-width: 200px;
-		    margin-top: 20px;
+		    margin-top: 25px;
     		list-style: none;
     	}
     	a {
     		text-decoration: none;
     		float: left;
-    		margin-left: 10px;
+    		padding: 0 10px;
     		font-size: 14px;
     		margin-top: -4px;
     		color: #000;
+    	}
+    	a:hover {
+    		background: #ddd;
+    		text-decoration: underline;
     	}
     	i.dir {
     		float: left;
@@ -30,6 +38,10 @@
     		height: 15px;
     		background-size: cover;
     		background-position: center;
+    	}
+    	h3 {
+    		width: 70%;
+    		margin: 20px auto;
     	}
     </style>
     <title><%= title %></title>

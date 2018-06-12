@@ -30,10 +30,11 @@ class Server {
     }
 
     handleRequest(req, res) {
+
         let _root = this.config.dir;
         let {pathname} = url.parse(req.url, true)
         let p = path.join(this.config.dir, pathname)
-        console.log('pppp:', p)
+
         try {
             let stat = fs.statSync(p)
 
@@ -65,8 +66,7 @@ class Server {
                         let len = fileType.length
                         fileBase = imgs[fileType[len-1]] || imgs.file
                     }
-                    console.log('filepath:', filepath)
-                    console.log(filepath.replace(p, ''))
+
                     return {
                         base: fileBase,
                         type: type,
@@ -74,8 +74,6 @@ class Server {
                         pathname: filepath.replace(_root, '')
                     }
                 })
-
-                console.log('files:', files)
 
                 let sortDirs = []
 
