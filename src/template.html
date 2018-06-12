@@ -4,11 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style type="text/css">
+	    ul {
+	    	width: 70%;
+	    	margin: 20px auto;
+	    }
+    	li {
+		    float: left;
+		    min-width: 200px;
+		    margin-top: 20px;
+    		list-style: none;
+    	}
+    	a {
+    		text-decoration: none;
+    		float: left;
+    		margin-left: 10px;
+    		font-size: 14px;
+    		margin-top: -4px;
+    		color: #000;
+    	}
+    	i.dir {
+    		float: left;
+    		display: inline-block;
+    		width: 20px;
+    		height: 15px;
+    		background-size: cover;
+    		background-position: center;
+    	}
+    </style>
     <title><%= title %></title>
 </head>
 <body>
-    <% dirs.map(item => { %>
-        <li><a href="<%= item.pathname %>"><%= item.filename %></a></li>
-    <% }) %>
+	<ul>
+		<% sortDirs.map(item => { %>
+			<li><i class="dir" style="background-image: url(data:image/png;base64,<%= item.base %>)"></i><a href="<%= item.pathname %>"><%= item.filename %></a></li>
+		<% }) %>
+    </ul>
 </body>
 </html>

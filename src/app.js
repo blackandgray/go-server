@@ -24,44 +24,90 @@ class Server {
         this.template = template
     }
 
+    toBase(path) {
+        let base = new Buffer(fs.readFileSync(path)).toString('base64')
+        return base
+    }
+
     handleRequest(req, res) {
+        let _root = this.config.dir;
         let {pathname} = url.parse(req.url, true)
         let p = path.join(this.config.dir, pathname)
-
+        console.log('pppp:', p)
         try {
-            // let statObj = await stat(p)
-            // let stat = fs.statSync(p)
+            let stat = fs.statSync(p)
 
-            fs.stat(p, (error, stat) => {
-                if (error && error.code === 'EEXIST') {
-                    res.statusCode = 404
-                    res.end()
-                    return
+            // 如果是目录，可以进去目录
+            if (stat.isDirectory()) {
+
+                // let filepaths = fs.readdirSync(p).map(pa => path.join(p, pa))
+                let files = fs.readdirSync(p)
+                let imgs = {
+                    'dir': this.toBase(`${__dirname}/img/dir.png`),
+                    'js': this.toBase(`${__dirname}/img/js.png`),
+                    'json': this.toBase(`${__dirname}/img/json.png`),
+                    'css': this.toBase(`${__dirname}/img/css.png`),
+                    'html': this.toBase(`${__dirname}/img/html.png`),
+                    'file': this.toBase(`${__dirname}/img/file_common.png`),
                 }
-                if ( stat.isDirectory() ) {
-                    fs.readdir(p, (err, data) => {
-                        let dirs = data
-                        dirs = dirs.map(dir => {
-                            return {
-                                filename: dir,
-                                pathname: path.join(pathname, dir)
-                            }
-                        })
-                        let str = ejs.render(this.template, {
-                            dirs,
-                            title: 'template'
-                        })
-                        res.setHeader('Content-type', 'text/html;charset=utf8')
-                        res.end(str)
-                    })
-                    
-                } else {
-                    // 如果是文件，直接打开文件
-                    this.openFile(req, res, p, stat)
-                }
-            })
+
+                files = files.map(file => {
+                    let filepath = path.join(p, file);
+                    let t = fs.statSync(filepath)
+                    let type = t.isDirectory() ? 'dir' : 'file'
+                    let fileBase = ''
+                    // console.log(dir, 'type: ', mime.getType(dir))
+
+                    if ( type === 'dir' ) {
+                        fileBase = imgs[type]
+                    } else {
+                        let fileType = file.split('.')
+                        let len = fileType.length
+                        fileBase = imgs[fileType[len-1]] || imgs.file
+                    }
+                    console.log('filepath:', filepath)
+                    console.log(filepath.replace(p, ''))
+                    return {
+                        base: fileBase,
+                        type: type,
+                        filename: file,
+                        pathname: filepath.replace(_root, '')
+                    }
+                })
+
+                console.log('files:', files)
+
+                let sortDirs = []
+
+                files.forEach(dir => {
+                    if ( dir.type === 'dir' ) {
+                        sortDirs.push(dir)
+                    }
+                })
+                files.forEach(dir => {
+                    if ( dir.type === 'file' ) {
+                        sortDirs.push(dir)
+                    }
+                })
+
+                // console.log('sortDirs: ', sortDirs)
+
+                let str = ejs.render(this.template, {
+                    sortDirs,
+                    title: 'template'
+                })
+
+                res.setHeader('Content-type', 'text/html;charset=utf8')
+                res.end(str)
+                
+            } else {
+                // 如果是文件，直接打开文件
+                this.openFile(req, res, p, stat)
+            }
+
 
         } catch(e) {
+            console.log(e)
             // 文件/目录不存在
             this.sendError(req, res, e)
         }
@@ -90,6 +136,7 @@ class Server {
     }
 
     openFile(req, res, p, stat) {
+        console.log('p: ', p)
         let {start, end} = this.range(req, res, p, stat)
         res.setHeader('Content-type', mime.getType(p) + ';charset=utf8')
         fs.createReadStream(p, {
