@@ -1,6 +1,6 @@
 {
   "name": "go-server",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "a node server",
   "main": "index.js",
   "scripts": {},
@@ -9,7 +9,7 @@
   "bin": {
     "go-server": "bin/www.js"
   },
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.1",
     "debug": "^3.1.0",
