@@ -49,7 +49,7 @@
 <body>
 	<ul>
 		<% sortDirs.map(item => { %>
-			<li><i class="dir" style="background-image: url(data:image/png;base64,<%= item.base %>)"></i><a href="<%= item.pathname %>"><%= item.filename %></a></li>
+			<li><i class="dir" style="background-image: url(data:image/png;base64,<%= item.base %>)"></i><a href="<%= decodeURIComponent(item.pathname) %>"><%= item.filename %></a></li>
 		<% }) %>
     </ul>
 </body>

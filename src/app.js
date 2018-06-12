@@ -33,7 +33,7 @@ class Server {
 
         let _root = this.config.dir;
         let {pathname} = url.parse(req.url, true)
-        let p = path.join(this.config.dir, pathname)
+        let p = path.join(this.config.dir, decodeURIComponent(pathname))
 
         try {
             let stat = fs.statSync(p)
@@ -66,12 +66,11 @@ class Server {
                         let len = fileType.length
                         fileBase = imgs[fileType[len-1]] || imgs.file
                     }
-
                     return {
                         base: fileBase,
                         type: type,
                         filename: file,
-                        pathname: filepath.replace(_root, '')
+                        pathname: encodeURIComponent(filepath.replace(_root, ''))
                     }
                 })
 
@@ -87,8 +86,6 @@ class Server {
                         sortDirs.push(dir)
                     }
                 })
-
-                // console.log('sortDirs: ', sortDirs)
 
                 let str = ejs.render(this.template, {
                     sortDirs,
@@ -134,7 +131,6 @@ class Server {
     }
 
     openFile(req, res, p, stat) {
-        console.log('p: ', p)
         let {start, end} = this.range(req, res, p, stat)
         res.setHeader('Content-type', mime.getType(p) + ';charset=utf8')
         fs.createReadStream(p, {
