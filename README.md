@@ -1,6 +1,6 @@
 ## a node server for anywhere
 
-### install (node > 8.0)
+### install
 
 ```
 	install: npm install go-server -g

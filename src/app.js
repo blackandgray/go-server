@@ -30,9 +30,14 @@ class Server {
 
         try {
             // let statObj = await stat(p)
-            let statObj
-            fs.stat(p, (error, stat) => {
+            // let stat = fs.statSync(p)
 
+            fs.stat(p, (error, stat) => {
+                if (error && error.code === 'EEXIST') {
+                    res.statusCode = 404
+                    res.end()
+                    return
+                }
                 if ( stat.isDirectory() ) {
                     fs.readdir(p, (err, data) => {
                         let dirs = data
