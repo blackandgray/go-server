@@ -1,6 +1,6 @@
 {
   "name": "go-server",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "a node server",
   "main": "index.js",
   "scripts": {},
@@ -9,6 +9,14 @@
   "bin": {
     "go-server": "bin/www.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackandgray/go-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackandgray/go-server/issues"
+  },
+  "homepage": "https://github.com/blackandgray/go-server#readme",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.1",
