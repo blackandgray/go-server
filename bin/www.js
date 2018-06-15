@@ -7,19 +7,24 @@ let argv = yargs.option('port', {
     alias: 'p',
     default: config.port,
     demand: false,
-    description: 'this is port'
-}).option('hostname', {
+    description: 'port'
+}).option('help', {
     alias: 'h',
-    default: ip,
+    default: false,
     type: String,
     demand: false,
-    description: 'this is hostname'
+    description: 'help'
 }).option('dir', {
     alias: 'd',
     default: process.cwd(),
     type: String,
     demand: false,
-    description: 'this is directory'
+    description: 'directory'
+}).option('version', {
+    alias: 'v',
+    default: 'v1.0.0',
+    type: String,
+    description: 'version'
 }).usage('go-server [options]').argv
 
 let Server = require('../src/app')

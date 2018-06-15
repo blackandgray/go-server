@@ -131,12 +131,14 @@ class Server {
     }
 
     openFile(req, res, p, stat) {
-        let {start, end} = this.range(req, res, p, stat)
-        res.setHeader('Content-type', mime.getType(p) + ';charset=utf8')
-        fs.createReadStream(p, {
-            start: 0,
-            end: 1024 * 64
-        }).pipe(res)
+        // let {start, end} = this.range(req, res, p, stat)
+        // console.log('file: %s, start: %d, end: %d', p, start, end);
+        res.setHeader('Content-type', mime.getType(p))
+        // fs.createReadStream(p, {
+        //     start,
+        //     end
+        // }).pipe(res)
+        fs.createReadStream(p).pipe(res);
     }
 
     // 没有找到文件或路径

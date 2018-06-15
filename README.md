@@ -15,9 +15,13 @@
 ### Options
 
 ```
-	-p port	(default to 8000)  
+	-h, --help
 
-	-d path	(default to current directory)  
+	-v, --version
+
+	-p, --port	(default to 8000)  
+
+	-d, --path	(default to current directory)  
 
 	...
 ```
